@@ -28,7 +28,8 @@
         v-if="currentVariant"
         :product="product"
         :variant="currentVariant"
-        v-on:variant-selected="onVariantSelected"
+        @variant-selected="onVariantSelected"
+        @addedToCart="$emit('addedToCart')"
       />
     </div>
   </div>
@@ -44,14 +45,14 @@ import ProductDescription from '~/components/nacelle/ProductDescription'
 import ProductVariantSelect from '~/components/nacelle/ProductVariantSelect'
 export default {
   components: {
-ProductCategory,
-ProductMediaSelectView,
-ProductTitle,
-ProductPrice,
-ProductDescription,
-ProductVariantSelect
+    ProductCategory,
+    ProductMediaSelectView,
+    ProductTitle,
+    ProductPrice,
+    ProductDescription,
+    ProductVariantSelect
   },
-  data () {
+  data() {
     return {
       selectedVariant: undefined
     }
@@ -63,7 +64,7 @@ ProductVariantSelect
     }
   },
   computed: {
-    currentVariant () {
+    currentVariant() {
       if (this.selectedVariant) {
         return this.selectedVariant
       } else if (
@@ -79,7 +80,7 @@ ProductVariantSelect
   },
   methods: {
     ...mapMutations('cart', ['showCart']),
-    onVariantSelected ({ selectedVariant }) {
+    onVariantSelected({ selectedVariant }) {
       this.selectedVariant = selectedVariant
     }
   }

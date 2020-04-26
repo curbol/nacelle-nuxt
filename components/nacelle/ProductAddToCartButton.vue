@@ -158,6 +158,7 @@ export default {
         }
         this.addLineItem(lineItem)
         this.showCart()
+        this.$emit('addedToCart')
       }
     }
   }

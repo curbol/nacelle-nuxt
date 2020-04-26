@@ -4,9 +4,9 @@
       v-show="showProductOptions"
       :options="allOptions"
       :variant="selectedVariant"
-      v-on:selectedOptionsSet="setSelected"
+      @selectedOptionsSet="setSelected"
       :variants="product.variants"
-      v-on:clear="selectedOptions = []"
+      @clear="selectedOptions = []"
     />
     <slot name="above-button"></slot>
     <div class="columns is-mobile">
@@ -19,6 +19,7 @@
           :product="product"
           :variant="selectedVariant"
           :allOptionsSelected="allOptionsSelected"
+          @addedToCart="$emit('addedToCart')"
         />
       </div>
     </div>
