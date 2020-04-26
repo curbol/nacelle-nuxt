@@ -26,6 +26,7 @@
       </div>
       <observe-emitter v-on:observe="fetchMore" />
     </section>
+    <NuxtChild :key="this.$route.params.productHandle" />
   </div>
 </template>
 
@@ -38,7 +39,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'collection',
   components: {
-    ContentHeroBanner, ProductGrid, ObserveEmitter
+    ContentHeroBanner,
+    ProductGrid,
+    ObserveEmitter
   },
   mixins: [getCollection()],
   computed: {

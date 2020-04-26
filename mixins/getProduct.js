@@ -11,8 +11,8 @@ export default ({ productHandle, locale } = {}) => {
     },
     async asyncData(context) {
       const { params, payload, app } = context
-      const { handle } = params
       const { $nacelle } = app
+      const handle = productHandle || params.productHandle
 
       if (payload && payload.productData) {
         return {
@@ -24,36 +24,44 @@ export default ({ productHandle, locale } = {}) => {
         return {}
       }
 
-      const productData = await $nacelle.data.product({
-        handle: productHandle || handle,
-        locale: locale
-      }).catch(error => {
-        console.warn(
-          `Unable to find product data for handle, "${productHandle || handle}".\n
+      const productData =
+        handle &&
+        (await $nacelle.data
+          .product({
+            handle,
+            locale: locale
+          })
+          .catch(error => {
+            console.warn(
+              `Unable to find product data for handle, "${handle}".\n
 Some page templates attempt to locate product data automatically, so this may not reflect a true error.`
-        )
-        return undefined
-      })
+            )
+            return undefined
+          }))
 
       return {
         product: productData
       }
     },
     async created() {
-      this.handle = productHandle || this.$route.params.handle
+      this.handle = productHandle || this.$route.params.productHandle
 
       if (process.browser) {
         if (!this.product && !this.noProductData) {
-          const productData = await this.$nacelle.data.product({
-            handle: this.handle,
-            locale: locale
-          }).catch(error => {
-            console.warn(
-              `Unable to find product data for handle, "${this.handle}".\n
+          const productData =
+            this.handle &&
+            (await this.$nacelle.data
+              .product({
+                handle: this.handle,
+                locale: locale
+              })
+              .catch(error => {
+                console.warn(
+                  `Unable to find product data for handle, "${this.handle}".\n
     Some page templates attempt to locate product data automatically, so this may not reflect a true error.`
-            )
-            return undefined
-          })
+                )
+                return undefined
+              }))
 
           if (productData) {
             if (productData.noData) {
