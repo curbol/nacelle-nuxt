@@ -4,7 +4,7 @@
       <router-link :to="`${pathFragment}${product.handle}`">
         <product-image :source="mediaSrc" />
       </router-link>
-      <nuxt-link :to="`/collections/${$route.params.handle}/${product.handle}`">
+      <nuxt-link append :to="`${product.handle}`">
         <div class="product-card-quick-shop">
           Quick Shop
         </div>

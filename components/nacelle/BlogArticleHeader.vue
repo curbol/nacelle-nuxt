@@ -8,8 +8,8 @@
     </slot>
     <slot name="author" :author="author">
       <p class="article-author">
-        <span v-if="author.firstName">{{ author.firstName }}</span>
-        <span v-if="author.lastName">{{ author.lastName }}</span>
+        <span v-if="author && author.firstName">{{ author.firstName }}</span>
+        <span v-if="author && author.lastName">{{ author.lastName }}</span>
       </p>
     </slot>
     <slot name="date" :date="absoluteDate">

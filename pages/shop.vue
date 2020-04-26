@@ -19,6 +19,7 @@
       </div>
       <observe-emitter v-on:observe="fetchMore" />
     </section>
+    <NuxtChild :key="this.$route.params.productHandle" />
   </div>
 </template>
 
