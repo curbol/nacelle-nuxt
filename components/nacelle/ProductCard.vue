@@ -1,8 +1,15 @@
 <template>
   <div class="product-card nacelle">
-    <router-link :to="`${pathFragment}${product.handle}`">
-      <product-image :source="mediaSrc" />
-    </router-link>
+    <div class="product-card-image-container">
+      <router-link :to="`${pathFragment}${product.handle}`">
+        <product-image :source="mediaSrc" />
+      </router-link>
+      <nuxt-link append :to="`${product.handle}`">
+        <div class="product-card-quick-shop">
+          Quick Shop
+        </div>
+      </nuxt-link>
+    </div>
     <div class="product-card-details">
       <router-link :to="`${pathFragment}${product.handle}`">
         <product-title :title="product.title" />
@@ -50,7 +57,6 @@ import QuantitySelector from '~/components/nacelle/QuantitySelector'
 import ProductAddToCartButton from '~/components/nacelle/ProductAddToCartButton'
 import InterfaceModal from '~/components/nacelle/InterfaceModal'
 import ProductOptions from '~/components/nacelle/ProductOptions'
-import CartFlyoutItem from '~/components/nacelle/CartFlyoutItem'
 import allOptionsSelected from '~/mixins/allOptionsSelected'
 import availableOptions from '~/mixins/availableOptions'
 
@@ -62,8 +68,7 @@ export default {
     QuantitySelector,
     ProductAddToCartButton,
     InterfaceModal,
-    ProductOptions,
-    CartFlyoutItem
+    ProductOptions
   },
   mixins: [allOptionsSelected, availableOptions],
   props: {
@@ -125,7 +130,7 @@ export default {
     ...mapGetters('cart', ['quantityTotal']),
 
     currentVariant() {
-      if (this.product.variants && this.product.variants.length == 1) {
+      if (this.product.variants && this.product.variants.length === 1) {
         return this.product.variants[0]
       } else {
         return this.selectedVariant
@@ -162,14 +167,14 @@ export default {
     productLineItems() {
       const vm = this
       return this.lineItems.filter(item => {
-        return item.productId == vm.product.id
+        return item.productId === vm.product.id
       })
     },
     onlyOneOption() {
       if (
         this.allOptions &&
-        this.allOptions.length == 1 &&
-        this.allOptions[0].values.length == 1
+        this.allOptions.length === 1 &&
+        this.allOptions[0].values.length === 1
       ) {
         return true
       } else {
@@ -191,6 +196,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.product-card-image-container {
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover .product-card-quick-shop {
+  opacity: 1;
+}
+.product-card-quick-shop {
+  display: block;
+  position: absolute;
+  bottom: -4px;
+  right: -49px;
+  width: 150px;
+  height: 75px;
+  opacity: 0;
+  transition: 0.5s ease;
+  transform: rotate(-45deg);
+  font-size: 10pt;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 30px;
+  white-space: nowrap;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
 .product-card-details,
 .product-card-actions {
   display: flex;
